@@ -47,3 +47,64 @@ def save_candidates(candidates):
 def seat_taken(candidates, seat_number):
     """Checks if a seat number is already assigned to any candidate."""
     return any(data["seat"] == seat_number for data in candidates.values())
+
+def add_candidate(candidates):
+    candidate_id = input("Enter Candidate ID (10 digits): ").strip()
+
+    if len(candidate_id) != 10 or not candidate_id.isdigit():
+        print("Error: Candidate ID must be exactly 10 digits.")
+        return
+
+    if not validate_id(candidate_id):
+        print("Error: Invalid Candidate ID (check digit mismatch).")
+        return
+
+    if candidate_id in candidates:
+        print("Error: Candidate ID already registered.")
+        return
+
+    name = input("Enter First Name (letters only, max 10 chars): ").strip()
+    if not name.isalpha() or len(name) > 10:
+        print("Error: Name must contain letters only and be at most 10 characters.")
+        return
+
+    seat = input("Enter Candidate Seat Number (2 digits): ").strip()
+    if len(seat) != 2 or not seat.isdigit():
+        print("Error: Seat number must be exactly 2 digits.")
+        return
+    if seat_taken(candidates, seat):
+        print("Error: Seat number already assigned to another candidate.")
+        return
+
+    candidates[candidate_id] = {"name": name, "seat": seat}
+    save_candidates(candidates)
+    print(f"Candidate {name} registered to seat {seat}.")
+
+
+def view_candidates(candidates):
+    if not candidates:
+        print("No candidates registered yet.")
+        return
+
+    print("\n--- Registered Candidates ---")
+    print(f"{'Candidate ID':<15}{'Name':<12}{'Seat':<5}")
+    for candidate_id, data in candidates.items():
+        print(f"{candidate_id:<15}{data['name']:<12}{data['seat']:<5}")
+
+
+def candidate_menu(candidates):
+    while True:
+        print("\n--- Candidate Registration Menu ---")
+        print("1. Add Candidate")
+        print("2. View Candidates")
+        print("3. Back to Main Menu")
+        choice = input("Select an option: ").strip()
+
+        if choice == "1":
+            add_candidate(candidates)
+        elif choice == "2":
+            view_candidates(candidates)
+        elif choice == "3":
+            break
+        else:
+            print("Invalid option, try again.")
