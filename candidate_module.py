@@ -108,3 +108,7 @@ def candidate_menu(candidates):
             break
         else:
             print("Invalid option, try again.")
+
+if __name__ == "__main__":
+    candidates = load_candidates()
+    candidate_menu(candidates)
