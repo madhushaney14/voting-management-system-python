@@ -4,4 +4,4 @@ SRI_LANKA_DISTRICTS = [
     "Vavuniya", "Badulla", "Monaragala", "Ratnapura", "Kegalle", "Matara"
 ]
 
-print(len(SRI_LANKA_DISTRICTS))
+#print(len(SRI_LANKA_DISTRICTS))
